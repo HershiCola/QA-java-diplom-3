@@ -1,11 +1,11 @@
-package com.pageObjects;
+package com.stellarBurgers;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-public class StellarBurgersPasswordRecoveryPage {
+public class PasswordRecoveryPage {
 
     @FindBy(how = How.XPATH,using = "//a[text()='Войти']")
     private SelenideElement enterButton;

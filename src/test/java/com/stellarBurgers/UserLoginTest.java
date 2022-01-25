@@ -1,4 +1,4 @@
-package com.pageObjects;
+package com.stellarBurgers;
 
 import com.UserOperations;
 import com.codeborne.selenide.Configuration;
@@ -10,14 +10,18 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.url;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UserLoginTest {
 
-    StellarBurgersMainPage mainPage = open(StellarBurgersMainPage.BURGERS_MAIN_PAGE_URL, StellarBurgersMainPage.class);
-    StellarBurgersLoginPage loginPage = page(StellarBurgersLoginPage.class);
-    StellarBurgersRegistrationPage registrationPage = page(StellarBurgersRegistrationPage.class);
-    StellarBurgersPasswordRecoveryPage recoveryPage = page(StellarBurgersPasswordRecoveryPage.class);
+    MainPage mainPage = open(MainPage.BURGERS_MAIN_PAGE_URL, MainPage.class);
+    LoginPage loginPage = page(LoginPage.class);
+    RegistrationPage registrationPage = page(RegistrationPage.class);
+    PasswordRecoveryPage recoveryPage = page(PasswordRecoveryPage.class);
     UserOperations userHelper;
+    final String LOGIN_URL = "https://stellarburgers.nomoreparties.site/login";
 
 
     @Before
@@ -29,50 +33,47 @@ public class UserLoginTest {
     }
 
     @Test
-    @DisplayName("Тест на вход по кнопке Войти в аккаунт")
+    @DisplayName("Вход по кнопке Войти в аккаунт")
     public void userLoginByEnterAccountButton(){
 
         Map<String, String> userData = userHelper.register();
         mainPage.clickEnterAccountButton();
         loginPage.enterCredentialsAndClickEnter(userData.get("email"), userData.get("password"));
-        mainPage.isMakeOrderButtonVisible();
+        assertTrue(mainPage.isMainPageLoggedAuthorised());
 
     }
 
     @Test
-    @DisplayName("Тест на вход по кнопке Личный кабинет")
+    @DisplayName("Вход по кнопке Личный кабинет")
     public void userLoginByPersonalCabinetButton(){
 
-        Map<String, String> userData = userHelper.register();
         mainPage.clickPersonalCabinetButton();
-        loginPage.enterCredentialsAndClickEnter(userData.get("email"), userData.get("password"));
-        mainPage.isMakeOrderButtonVisible();
+        String actualUrl = url();
+        assertEquals("Не прошел переход на страницу логина", actualUrl, LOGIN_URL);
 
     }
 
     @Test
-    @DisplayName("Тест на вход через кнопку на форме регистрации")
+    @DisplayName("Вход через кнопку на форме регистрации")
     public void userLoginFromRegistrationForm(){
 
-        Map<String, String> userData = userHelper.register();
         mainPage.clickEnterAccountButton();
         loginPage.clickRegistrationButton();
         registrationPage.clickEnterAccountButton();
-        loginPage.enterCredentialsAndClickEnter(userData.get("email"), userData.get("password"));
-        mainPage.isMakeOrderButtonVisible();
+        String actualUrl = url();
+        assertEquals("Не прошел переход на страницу логина", actualUrl, LOGIN_URL);
 
     }
 
     @Test
-    @DisplayName("Тест на вход через кнопку на форме восстановления пароля")
+    @DisplayName("Вход через кнопку на форме восстановления пароля")
     public void userLoginFromPasswordRecoveryForm(){
 
-        Map<String, String> userData = userHelper.register();
         mainPage.clickEnterAccountButton();
         loginPage.clickRecoveryButton();
         recoveryPage.clickEnterButton();
-        loginPage.enterCredentialsAndClickEnter(userData.get("email"), userData.get("password"));
-        mainPage.isMakeOrderButtonVisible();
+        String actualUrl = url();
+        assertEquals("Не прошел переход на страницу логина", actualUrl, LOGIN_URL);
     }
 
     @After

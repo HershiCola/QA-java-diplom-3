@@ -1,4 +1,4 @@
-package com.pageObjects;
+package com.stellarBurgers;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
@@ -8,9 +8,9 @@ import org.openqa.selenium.support.How;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 
-public class StellarBurgersUserProfilePage {
+public class UserProfilePage {
 
-    @FindBy(how = How.CLASS_NAME,using = "AppHeader_header__logo__2D0X2")
+    @FindBy(how = How.XPATH,using = "//div[starts-with(@Class, 'AppHeader_header__logo')]")
     private SelenideElement stellarBurgersLogo;
 
     @FindBy(how = How.XPATH,using = "//p[text()='Конструктор']")
@@ -28,6 +28,6 @@ public class StellarBurgersUserProfilePage {
     @Step("Клик по Логотипу")
     public void clickMainLogo(){stellarBurgersLogo.click();}
 
-    @Step("Нажатие кнопки Выход")
+    @Step("Клие по кнопке Выход")
     public void clickExitButton(){exitButton.click();}
 }
